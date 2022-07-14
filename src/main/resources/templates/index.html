@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <div class="container-fluid">
+
+        <div class="d-flex justify-content-center mt-5">
+            <a th:href="@{/}"><img src="../static/thedumbman.png" th:src="@{/thedumbman.png}" alt="" width="85" height="85"></a>
+        </div>
+
+        <div class="d-flex justify-content-center mt-1">
+            <h3>Welcome to <font color="#6a5acd">thedumbman.com</font>!</h3>
+        </div>
+        <div class="d-flex justify-content-center">
+            <p class="text-center">Give me some dumb advice or ask me anything! Everything is anonymous.</p>
+        </div>
+        <div class="d-flex justify-content-center">
+            <p class="text-center text-muted">If you feel generous, you can flex and contribute to me with a click of the <img src="../static/bmc-logo.png" width="25" th:src="@{/bmc-logo.png}" alt="">
+                button in the bottom-right corner!</p>
+        </div>
+        <div class="d-flex justify-content-center">
+            <p class="text-center text-muted">
+                View <a style="color:#6a5acd" th:href="@{/contributors}">contributors</a> list.
+            </p>
+        </div>
+    </div>
+    <form method="post" th:action="@{/post}">
+    <div class="d-flex justify-content-center mt-2">
+        <input type="text" class="form-control w-50" required minlength="2" maxlength="20" id="exampleFormControlInput1" placeholder="Your name (Required)" th:name="name">
+    </div>
+    <div class="d-flex justify-content-center mt-1">
+        <textarea class="form-control w-50" required id="exampleFormControlTextarea1" minlength="5" maxlength="1500" rows="3" placeholder="Put some text here! Maximum length is 1500 characters. Minimum length is 5 characters." th:name="content"></textarea>
+    </div>
+    <div class="d-flex justify-content-center mt-2">
+        <button type="submit" class="btn btn-primary mb-3">Post</button>
+    </div>
+    </form>
+
+    <div class="container-fluid justify-content-center mt-5" th:if="${!posts.isEmpty()}">
+        <div class="row justify-content-center mb-2" th:each="post : ${posts}">
+            <div class="card w-75">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${post.username}"></h5>
+                    <p class="card-text" th:text="${post.content}"></p>
+                    <p class="card-text text-muted" th:text="${#temporals.format(post.creationDate, 'dd-MM-yyyy HH:mm')}"></p>
+                    <p class="card-text text-muted" th:if="${post.answer == null}"><i class="bi bi-question-lg"></i>Awaiting an answer...</p>
+                    <p class="card-text text-success" th:if="${post.answer != null}">
+                        <i class="bi bi-check-lg"></i>Answered by <b>thedumbman</b>
+                        <a class="text-muted" style="text-decoration: none;" data-bs-toggle="collapse" th:attr="data-bs-target=|#answer${post.id}" role="button" aria-expanded="false">
+                        View
+                    </a></p>
+                    <div class="collapse" th:id="answer + ${post.id}">
+                        <div class="card card-body">
+                            <p class="card-text" th:utext="'<b>thedumbman:</b>' + ' ' + ${post.answer}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="thedumbman" data-description="Support me on Buy me a coffee!" data-message="If you wish to support me, do not hesitate to buy me a coffee!" data-color="#BD5FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+</body>
+
+<footer class="mt-auto">
+    <p class="text-center">Made with <i style="color: red;"class="bi bi-heart-fill"></i> thedumbman.com</p>
+</footer>
+
+</html>
