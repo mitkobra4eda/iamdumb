@@ -37,7 +37,6 @@ public class PostService {
 
         post.setUsername(name);
         post.setContent(content);
-        post.setCreationDate(LocalDateTime.now());
         postRepo.save(post);
 
     }
