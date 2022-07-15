@@ -32,6 +32,4 @@ public class Post {
     @Size(min = 3, max = 1500)
     private String answer;
 
-    private LocalDateTime creationDate;
-
 }
