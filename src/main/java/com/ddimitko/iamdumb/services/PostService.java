@@ -16,7 +16,7 @@ public class PostService {
     PostRepository postRepo;
 
     public List<Post> findAll(){
-        return postRepo.findAll(Sort.by(Sort.Direction.DESC, "creationDate"));
+        return postRepo.findAll();
     }
 
     public Post findById(Long id){
